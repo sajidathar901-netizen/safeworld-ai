@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeWorld AI - Version 2</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:#071426;color:white;
+}
+header{
+  text-align:center;padding:28px 15px;
+  background:linear-gradient(135deg,#075985,#123c72);
+}
+header h1{margin:0;font-size:30px}
+header p{color:#dbeafe}
+main{max-width:750px;margin:25px auto;padding:15px}
+.card{
+  background:#12243b;padding:22px;
+  border-radius:15px;margin-bottom:18px;
+  border:1px solid #29425f;
+}
+textarea,input{
+  width:100%;padding:14px;margin:10px 0;
+  border-radius:9px;border:1px solid #55708c;
+  background:#071426;color:white;font-size:16px;
+}
+button{
+  padding:13px 18px;border:0;border-radius:9px;
+  background:#06b6d4;color:#061526;
+  font-weight:bold;font-size:16px;cursor:pointer;
+}
+button.secondary{background:#334e68;color:white}
+.result{display:none;margin-top:18px}
+.score{font-size:32px;font-weight:bold}
+ul{line-height:1.8}
+footer{text-align:center;color:#9caec2;padding:25px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🛡️ SafeWorld AI</h1>
+<p>Your Digital Safety Assistant | Version 2.0</p>
+<button class="secondary" onclick="setLanguage('en')">English</button>
+<button class="secondary" onclick="setLanguage('ur')">اردو</button>
+</header>
+
+<main>
+<div class="card">
+<h2 id="heading">Check Suspicious Messages</h2>
+<p id="description">Paste a suspicious message, job offer or online earning offer below.</p>
+<textarea id="message" rows="6" placeholder="Paste message here..."></textarea>
+<button onclick="analyze()" id="checkBtn">Analyze Message</button>
+</div>
+
+<div class="card">
+<h2 id="linkHeading">Website Safety Check</h2>
+<p id="linkDescription">Enter a website address to check for common warning signs.</p>
+<input id="website" placeholder="https://example.com">
+<button onclick="checkWebsite()" id="linkBtn">Check Website</button>
+<div id="linkResult" class="result"></div>
+</div>
+
+<div class="card result" id="result">
+<h2 id="resultHeading">Analysis Result</h2>
+<div class="score" id="score"></div>
+<h3 id="risk"></h3>
+<p id="explanation"></p>
+<h3 id="warningHeading">Warning Signs</h3>
+<ul id="warnings"></ul>
+<h3 id="adviceHeading">Safer Next Steps</h3>
+<ul id="advice"></ul>
+</div>
+</main>
+
+<footer>
+SafeWorld AI © 2026 | Stay Alert. Stay Safe.
+<br><small>This is an early rule-based prototype, not a verified fraud detection service.</small>
+</footer>
+
+<script>
+let language="en";
+
+function setLanguage(lang){
+ language=lang;
+ if(lang==="ur"){
+  document.documentElement.lang="ur";
+  document.getElementById("heading").innerText="مشکوک پیغامات چیک کریں";
+  document.getElementById("description").innerText="مشکوک پیغام، نوکری یا آن لائن کمائی کی پیشکش یہاں درج کریں۔";
+  document.getElementById("checkBtn").innerText="پیغام چیک کریں";
+  document.getElementById("linkHeading").innerText="ویب سائٹ کی جانچ";
+  document.getElementById("linkDescription").innerText="ویب سائٹ کا ایڈریس درج کریں۔";
+  document.getElementById("linkBtn").innerText="ویب سائٹ چیک کریں";
+  document.getElementById("resultHeading").innerText="نتیجہ";
+  document.getElementById("warningHeading").innerText="خطرے کی نشانیاں";
+  document.getElementById("adviceHeading").innerText="محفوظ اگلے اقدامات";
+ }else{
+  document.documentElement.lang="en";
+  document.getElementById("heading").innerText="Check Suspicious Messages";
+  document.getElementById("description").innerText="Paste a suspicious message, job offer or online earning offer below.";
+  document.getElementById("checkBtn").innerText="Analyze Message";
+  document.getElementById("linkHeading").innerText="Website Safety Check";
+  document.getElementById("linkDescription").innerText="Enter a website address to check for common warning signs.";
+  document.getElementById("linkBtn").innerText="Check Website";
+  document.getElementById("resultHeading").innerText="Analysis Result";
+  document.getElementById("warningHeading").innerText="Warning Signs";
+  document.getElementById("adviceHeading").innerText="Safer Next Steps";
+ }
+}
+
+function analyze(){
+ const msg=document.getElementById("message").value.toLowerCase().trim();
+ if(!msg){alert(language==="ur"?"پہلے پیغام درج کریں":"Please enter a message first.");return;}
+
+ let score=0,warnings=[];
+ const rules=[
+  {words:["pay first","registration fee","deposit money","advance payment"],points:25,warning:"Requests for advance payment"},
+  {words:["guaranteed profit","100% profit","double your money"],points:25,warning:"Unrealistic profit promises"},
+  {words:["otp","one time password","verification code"],points:30,warning:"Request for OTP or verification code"},
+  {words:["urgent","act now","limited time"],points:10,warning:"High-pressure language"},
+  {words:["password","bank details","card number"],points:25,warning:"Request for sensitive information"},
+  {words:["free dollars","instant withdrawal","easy money"],points:15,warning:"Unusually easy earning claims"}
+ ];
+
+ rules.forEach(rule=>{
+  if(rule.words.some(word=>msg.includes(word))){
+   score+=rule.points;
+   warnings.push(rule.warning);
+  }
+ });
+
+ score=Math.min(score,100);
+ showResult(score,warnings);
+}
+
+function showResult(score,warnings){
+ const result=document.getElementById("result");
+ result.style.display="block";
+ document.getElementById("score").innerText=score+"/100";
+ let risk=score>=60?"High Risk":score>=30?"Caution":"Lower Risk";
+ if(language==="ur"){
+  risk=score>=60?"زیادہ خطرہ":score>=30?"احتیاط ضروری":"کم خطرے کی نشانیاں";
+ }
+ document.getElementById("risk").innerText=risk;
+
+ document.getElementById("explanation").innerText=
+ language==="ur"
+ ?"یہ نتیجہ صرف پیغام میں موجود عام خطرے کی نشانیوں پر مبنی ہے۔ یہ حتمی فیصلہ نہیں۔"
+ :"This result is based on common warning signs in the text. It is not a final scam determination.";
+
+ const warningList=document.getElementById("warnings");
+ warningList.innerHTML="";
+ if(warnings.length===0){
+  warnings.push(language==="ur"?"کوئی واضح نشانی نہیں ملی، لیکن پھر بھی تصدیق کریں۔":"No obvious warning signs found. Still verify independently.");
+ }
+ warnings.forEach(w=>{
+  let li=document.createElement("li");
+  li.textContent=w;
+  warningList.appendChild(li);
+ });
+
+ const tips=language==="ur"
+ ?["کسی کو OTP یا پاس ورڈ نہ دیں۔","پہلے تصدیق کیے بغیر رقم نہ بھیجیں۔","ویب سائٹ اور کمپنی کی آزادانہ تحقیق کریں۔","مشکوک لنک نہ کھولیں۔"]
+ :["Never share your OTP or password.","Do not send money before verification.","Independently research the company or website.","Avoid opening suspicious links."];
+
+ const adviceList=document.getElementById("advice");
+ adviceList.innerHTML="";
+ tips.forEach(t=>{
+  let li=document.createElement("li");
+  li.textContent=t;
+  adviceList.appendChild(li);
+ });
+ result.scrollIntoView({behavior:"smooth"});
+}
+
+function checkWebsite(){
+ const value=document.getElementById("website").value.trim();
+ const output=document.getElementById("linkResult");
+ output.style.display="block";
+ let warnings=[];
+
+ try{
+  const url=new URL(value);
+  if(url.protocol!=="https:") warnings.push("Website does not use HTTPS.");
+  if(!url.hostname.includes(".")) warnings.push("Unusual website address.");
+  if(url.hostname.startsWith("xn--")) warnings.push("Internationalized domain: check spelling carefully.");
+  if(url.hostname.split(".").length>4) warnings.push("Unusually complex subdomain.");
+  output.innerHTML="";
+  const title=document.createElement("strong");
+  title.textContent="Basic URL review";
+  output.appendChild(title);
+  const list=document.createElement("ul");
+  (warnings.length?warnings:["No obvious URL-format warning found."]).forEach(w=>{
+   const li=document.createElement("li");
+   li.textContent=w;
+   list.appendChild(li);
+  });
+  output.appendChild(list);
+  const note=document.createElement("p");
+  note.textContent="This check does not visit the website or confirm whether it is safe.";
+  output.appendChild(note);
+ }catch(e){
+  output.textContent="Please enter a valid website address, including https://";
+ }
+}
+</script>
+</body>
+</html>
