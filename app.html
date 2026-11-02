@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b35">
+<title>SafeWorldAI | Global Digital Safety</title>
+<style>
+:root{--bg:#091326;--panel:#14233e;--blue:#2878ef;--text:#f4f7ff;--muted:#a9b8d1;--green:#35d6a0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.6}
+header{padding:17px 6%;display:flex;justify-content:space-between;align-items:center;background:#101d35;position:sticky;top:0;z-index:5;border-bottom:1px solid #263958}
+.logo{font-size:23px;font-weight:bold;color:white}
+.logo span{color:#45a0ff}
+nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+a{color:var(--muted);text-decoration:none}
+a:hover{color:white}
+button{cursor:pointer;border:0;border-radius:9px;padding:11px 17px;font-weight:bold}
+.primary{background:var(--blue);color:white}
+.secondary{background:#263958;color:white}
+.hero{text-align:center;padding:85px 18px 65px;background:radial-gradient(ellipse at top,#203e70,#091326 70%)}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.15;margin:10px auto;max-width:850px}
+.hero p{max-width:680px;margin:20px auto;color:var(--muted)}
+.tag{color:var(--green);font-weight:bold;letter-spacing:2px}
+section{padding:55px 6%;max-width:1200px;margin:auto}
+h2{text-align:center;font-size:30px}
+.sub{text-align:center;color:var(--muted);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:var(--panel);padding:23px;border:1px solid #263958;border-radius:15px}
+.card h3{margin-top:7px}
+.card p{color:var(--muted)}
+.icon{font-size:30px}
+input,textarea,select{width:100%;padding:13px;margin:9px 0;background:#091326;color:white;border:1px solid #405574;border-radius:8px;font:inherit}
+textarea{min-height:110px;resize:vertical}
+form{max-width:600px;margin:auto}
+.result{display:none;background:#0d392f;padding:15px;border-radius:9px;margin-top:12px}
+.price{font-size:30px;color:var(--green);font-weight:bold}
+footer{text-align:center;padding:35px;background:#101d35;color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:650px){header{align-items:flex-start;gap:12px;flex-direction:column}nav{gap:12px}.hero{padding-top:60px}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">SafeWorld<span>AI</span> 🛡️</div>
+<nav>
+<a href="#services">Services</a>
+<a href="#checker">AI Checker</a>
+<a href="#membership">Membership</a>
+<a href="#account">Account</a>
+<button class="secondary" onclick="toggleLanguage()">اردو / EN</button>
+</nav>
+</header>
+
+<main>
+<div class="hero">
+<div class="tag">A SAFER DIGITAL WORLD</div>
+<h1 id="headline">Protect Yourself in the Digital World</h1>
+<p id="intro">Discover digital risks, understand online scams and learn how to protect your personal information with SafeWorldAI.</p>
+<a href="#services"><button class="primary">Explore Services</button></a>
+<a href="#checker"><button class="secondary">Safety Checker</button></a>
+</div>
+
+<section id="services">
+<h2>Our Global Services</h2>
+<p class="sub">Digital awareness and protection for everyone.</p>
+<div class="grid">
+<div class="card"><div class="icon">🛡️</div><h3>Scam Awareness</h3><p>Learn how online scams operate and how to recognize warning signs.</p></div>
+<div class="card"><div class="icon">🔍</div><h3>Message Analysis</h3><p>Learn to identify suspicious links, messages and requests.</p></div>
+<div class="card"><div class="icon">🌐</div><h3>Website Safety</h3><p>Understand website security indicators and online risks.</p></div>
+<div class="card"><div class="icon">🔐</div><h3>Digital Privacy</h3><p>Learn how to protect personal information and accounts.</p></div>
+<div class="card"><div class="icon">🎓</div><h3>Cybersecurity Learning</h3><p>Build your knowledge of responsible digital safety.</p></div>
+<div class="card"><div class="icon">🌍</div><h3>Global Community</h3><p>Help create a safer digital environment worldwide.</p></div>
+</div>
+</section>
+
+<section id="checker">
+<h2>Digital Safety Checker</h2>
+<p class="sub">Demo interface – educational checks only.</p>
+<div class="card">
+<label for="message">Paste a suspicious message or link</label>
+<textarea id="message" placeholder="Paste text here..."></textarea>
+<button class="primary" onclick="checkDemo()">Check Warning Signs</button>
+<div class="result" id="result"></div>
+<p class="small">This demonstration checks a few common warning signs locally. It is not a live AI analysis or a verification of website safety. Never paste passwords, OTPs or private information.</p>
+</div>
+</section>
+
+<section id="account">
+<h2>User Account</h2>
+<p class="sub">Registration and login interface preview.</p>
+<div class="card">
+<form onsubmit="accountDemo(event)">
+<label>Email address</label>
+<input type="email" required placeholder="Enter your email">
+<label>Password</label>
+<input type="password" required minlength="8" placeholder="At least 8 characters">
+<button class="primary" type="submit">Preview Account</button>
+<div class="result" id="accountResult">This is a frontend preview. Secure account registration is not connected yet.</div>
+</form>
+</div>
+</section>
+
+<section id="membership">
+<h2>Membership Plans</h2>
+<p class="sub">Choose the service level that suits you.</p>
+<div class="grid">
+<div class="card">
+<h3>Free Membership</h3>
+<div class="price">$0</div>
+<p>Basic digital safety education</p>
+<p>Scam awareness resources</p>
+<p>Community learning</p>
+<button class="secondary" onclick="alert('Membership registration is coming soon.')">Explore Free</button>
+</div>
+<div class="card">
+<h3>Premium Membership</h3>
+<div class="price">Coming Soon</div>
+<p>Planned advanced safety services</p>
+<p>Detailed educational reports</p>
+<p>Additional member features</p>
+<button class="primary" onclick="alert('Premium membership is not available yet.')">Coming Soon</button>
+</div>
+</div>
+<p class="small" style="text-align:center">No payment is collected on this demonstration website.</p>
+</section>
+
+<section>
+<h2>Our Principles</h2>
+<div class="grid">
+<div class="card">🔒 Privacy First</div>
+<div class="card">🤝 User Consent</div>
+<div class="card">📢 Transparency</div>
+<div class="card">⚖️ Responsible AI</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="logo">SafeWorld<span>AI</span> 🛡️</div>
+<p>A Safer Digital World.</p>
+<p>Privacy • Awareness • Responsible Technology</p>
+<p class="small">Version 6 – Frontend Demonstration</p>
+</footer>
+
+<script>
+let urdu=false;
+function toggleLanguage(){
+urdu=!urdu;
+document.getElementById('headline').textContent=urdu?'ڈیجیٹل دنیا میں اپنی حفاظت کریں':'Protect Yourself in the Digital World';
+document.getElementById('intro').textContent=urdu?'آن لائن فراڈ کو سمجھیں اور اپنی ذاتی معلومات کی حفاظت سیکھیں۔':'Discover digital risks, understand online scams and learn how to protect your personal information with SafeWorldAI.';
+}
+function checkDemo(){
+const value=document.getElementById('message').value;
+const result=document.getElementById('result');
+if(!value.trim()){alert('Please enter a message first.');return;}
+let warnings=[];
+if(/password|otp|verification code/i.test(value))warnings.push('The message mentions passwords or verification codes.');
+if(/urgent|immediately|act now/i.test(value))warnings.push('The message uses urgent language.');
+if(/prize|winner|free money/i.test(value))warnings.push('The message promises a prize or money.');
+if(/http:\/\//i.test(value))warnings.push('The link uses an unencrypted HTTP address.');
+result.style.display='block';
+result.textContent=warnings.length?'Possible warning signs: '+warnings.join(' '):'No listed warning signs detected. This does not prove the message is safe.';
+}
+function accountDemo(e){
+e.preventDefault();
+document.getElementById('accountResult').style.display='block';
+}
+</script>
+</body>
+</html>
